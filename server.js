@@ -29,6 +29,7 @@ async function startSession(sessionId) {
     if (qr) sessions[sessionId].qr = qr;
     sessions[sessionId].connected = connection === "open";
 
+    // envia para todos os clientes conectados via WebSocket
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
         client.send(JSON.stringify({ sessionId, qr, connected: sessions[sessionId].connected }));
